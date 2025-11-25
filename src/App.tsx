@@ -31,11 +31,16 @@ interface BaseCardData {
 
 interface PricingCardData extends BaseCardData {
   type: "pricing-grid" | "pricing-columns";
-  multiTableMode?: boolean;  // ADD THIS
+  multiTableMode?: boolean;
   tables?: Array<{
     id: string;
     name: string;
     caption?: string;
+    showWidgetTitle?: boolean;
+    widgetTitle?: string;
+    widgetTitleCaption?: string;
+    widgetTitleColor?: string;
+    widgetCaptionColor?: string;
     cards: Array<{
       title: string;
       titleCaption?: string;
@@ -55,14 +60,16 @@ interface PricingCardData extends BaseCardData {
       oldPriceEnabled?: boolean;
       oldPrice?: string;
       discountLabel?: string;
-      priceColor?: string;           // ADD THIS
-      discountLabelColor?: string;   // ADD THIS
-      discountLabelTextColor?: string;   // NEW - For text color
+      priceColor?: string;
+      discountLabelColor?: string;
+      discountLabelTextColor?: string;
     }>;
   }>;
   widgetTitle?: string;
   widgetTitleCaption?: string;
   showWidgetTitle?: boolean;
+  widgetTitleColor?: string;
+  widgetCaptionColor?: string;
   cards: {
     title: string;
     titleCaption?: string;
@@ -82,22 +89,10 @@ interface PricingCardData extends BaseCardData {
     oldPriceEnabled?: boolean;
     oldPrice?: string;
     discountLabel?: string;
-    priceColor?: string;           // ADD THIS
-    discountLabelColor?: string;   // ADD THIS
-    discountLabelTextColor?: string;   // NEW - For text color
+    priceColor?: string;
+    discountLabelColor?: string;
+    discountLabelTextColor?: string;
   }[];
-
-  // interface ComparisonTableData {
-  //   type: "comparison-table";
-  //   title: string;
-  //   plans: {
-  //     name: string;
-  //     price: string;
-  //     period: string;
-  //     features: Record<string, boolean>;
-  //   }[];
-  //   featuresList: string[];
-  // }
 }
 interface ComparisonTableData {
   type: "comparison-table";
@@ -130,6 +125,11 @@ const INITIAL_PRICING_CARD: PricingCardData = {
       id: "table_1",
       name: "Table 1",
       caption: "",
+      showWidgetTitle: false,
+      widgetTitle: "",
+      widgetTitleCaption: "",
+      widgetTitleColor: "#FF6B6B",
+      widgetCaptionColor: "#6B7280",
       cards: [
         {
           title: "Standard Room",
@@ -1647,87 +1647,85 @@ const PricingCardEditor = ({ data, onChange }: PricingCardEditorProps) => {
     <div className="space-y-6">
 
       {/* WIDGET TITLE SECTION */}
-      {/* WIDGET TITLE SECTION */}
-      {editingCardIndex === null && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <label className="block text-sm font-medium text-gray-300">
-              Widget Title
-            </label>
-            <button
-              onClick={() => onChange({ ...data, showWidgetTitle: !data.showWidgetTitle })}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${data.showWidgetTitle ? 'bg-blue-600' : 'bg-gray-600'
-                }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${data.showWidgetTitle ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-              />
-            </button>
+{editingCardIndex === null && !data.multiTableMode && (
+  <div className="space-y-4">
+    <div className="flex items-center justify-between">
+      <label className="block text-sm font-medium text-gray-300">
+        Widget Title
+      </label>
+      <button
+        onClick={() => onChange({ ...data, showWidgetTitle: !data.showWidgetTitle })}
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+          data.showWidgetTitle ? 'bg-blue-600' : 'bg-gray-600'
+        }`}
+      >
+        <span
+          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+            data.showWidgetTitle ? 'translate-x-6' : 'translate-x-1'
+          }`}
+        />
+      </button>
+    </div>
+
+    {data.showWidgetTitle && (
+      <>
+        <InputField
+          label="Title"
+          value={data.widgetTitle || ""}
+          placeholder="Enter widget title"
+          onChange={(value) => onChange({ ...data, widgetTitle: value })}
+        />
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Title Color
+          </label>
+          <div className="flex gap-3 items-center">
+            <input
+              type="color"
+              value={data.widgetTitleColor || "#FF6B6B"}
+              onChange={(e) => onChange({ ...data, widgetTitleColor: e.target.value })}
+              className="w-16 h-12 rounded cursor-pointer"
+            />
+            <input
+              type="text"
+              value={data.widgetTitleColor || "#FF6B6B"}
+              onChange={(e) => onChange({ ...data, widgetTitleColor: e.target.value })}
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-
-          {data.showWidgetTitle && (
-            <>
-              <InputField
-                label="Title"
-                value={data.widgetTitle || ""}
-                placeholder="Enter widget title"
-                onChange={(value) => onChange({ ...data, widgetTitle: value })}
-              />
-
-              {/* ADD THIS - Title Color Picker */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Title Color
-                </label>
-                <div className="flex gap-3 items-center">
-                  <input
-                    type="color"
-                    value={data.widgetTitleColor || "#FF6B6B"}
-                    onChange={(e) => onChange({ ...data, widgetTitleColor: e.target.value })}
-                    className="w-16 h-12 rounded cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    value={data.widgetTitleColor || "#FF6B6B"}
-                    onChange={(e) => onChange({ ...data, widgetTitleColor: e.target.value })}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              <InputField
-                label="Caption"
-                value={data.widgetTitleCaption || ""}
-                placeholder="Enter caption"
-                onChange={(value) => onChange({ ...data, widgetTitleCaption: value })}
-              />
-
-              {/* ADD THIS - Caption Color Picker */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Caption Color
-                </label>
-                <div className="flex gap-3 items-center">
-                  <input
-                    type="color"
-                    value={data.widgetCaptionColor || "#6B7280"}
-                    onChange={(e) => onChange({ ...data, widgetCaptionColor: e.target.value })}
-                    className="w-16 h-12 rounded cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    value={data.widgetCaptionColor || "#6B7280"}
-                    onChange={(e) => onChange({ ...data, widgetCaptionColor: e.target.value })}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-            </>
-          )}
         </div>
-      )}
 
+        <InputField
+          label="Caption"
+          value={data.widgetTitleCaption || ""}
+          placeholder="Enter caption"
+          onChange={(value) => onChange({ ...data, widgetTitleCaption: value })}
+        />
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Caption Color
+          </label>
+          <div className="flex gap-3 items-center">
+            <input
+              type="color"
+              value={data.widgetCaptionColor || "#6B7280"}
+              onChange={(e) => onChange({ ...data, widgetCaptionColor: e.target.value })}
+              className="w-16 h-12 rounded cursor-pointer"
+            />
+            <input
+              type="text"
+              value={data.widgetCaptionColor || "#6B7280"}
+              onChange={(e) => onChange({ ...data, widgetCaptionColor: e.target.value })}
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+      </>
+    )}
+  </div>
+)}
 
 
       {/* CONDITIONAL RENDERING BASED ON MODE */}
@@ -2105,6 +2103,134 @@ const PricingCardEditor = ({ data, onChange }: PricingCardEditorProps) => {
                 Back to Tables
               </button>
 
+              {/* Multi-table mode: show table title options */}
+              {data.multiTableMode && data.tables && (
+                <div className="space-y-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-sm font-medium text-gray-300">
+                      Table Title
+                    </label>
+                    <button
+                      onClick={() => {
+                        const newTables = [...data.tables!];
+                        newTables[editingTableIndex] = {
+                          ...newTables[editingTableIndex],
+                          showWidgetTitle: !newTables[editingTableIndex].showWidgetTitle
+                        };
+                        onChange({ ...data, tables: newTables });
+                      }}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${data.tables[editingTableIndex].showWidgetTitle ? 'bg-blue-600' : 'bg-gray-600'
+                        }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${data.tables[editingTableIndex].showWidgetTitle ? 'translate-x-6' : 'translate-x-1'
+                          }`}
+                      />
+                    </button>
+                  </div>
+
+                  {data.tables[editingTableIndex].showWidgetTitle && (
+                    <>
+                      <InputField
+                        label="Title"
+                        value={data.tables[editingTableIndex].widgetTitle || ""}
+                        placeholder="Enter table title"
+                        onChange={(value) => {
+                          const newTables = [...data.tables!];
+                          newTables[editingTableIndex] = {
+                            ...newTables[editingTableIndex],
+                            widgetTitle: value
+                          };
+                          onChange({ ...data, tables: newTables });
+                        }}
+                      />
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                          Title Color
+                        </label>
+                        <div className="flex gap-3 items-center">
+                          <input
+                            type="color"
+                            value={data.tables[editingTableIndex].widgetTitleColor || "#FF6B6B"}
+                            onChange={(e) => {
+                              const newTables = [...data.tables!];
+                              newTables[editingTableIndex] = {
+                                ...newTables[editingTableIndex],
+                                widgetTitleColor: e.target.value
+                              };
+                              onChange({ ...data, tables: newTables });
+                            }}
+                            className="w-16 h-12 rounded cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={data.tables[editingTableIndex].widgetTitleColor || "#FF6B6B"}
+                            onChange={(e) => {
+                              const newTables = [...data.tables!];
+                              newTables[editingTableIndex] = {
+                                ...newTables[editingTableIndex],
+                                widgetTitleColor: e.target.value
+                              };
+                              onChange({ ...data, tables: newTables });
+                            }}
+                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                      </div>
+
+                      <InputField
+                        label="Caption"
+                        value={data.tables[editingTableIndex].widgetTitleCaption || ""}
+                        placeholder="Enter caption"
+                        onChange={(value) => {
+                          const newTables = [...data.tables!];
+                          newTables[editingTableIndex] = {
+                            ...newTables[editingTableIndex],
+                            widgetTitleCaption: value
+                          };
+                          onChange({ ...data, tables: newTables });
+                        }}
+                      />
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                          Caption Color
+                        </label>
+                        <div className="flex gap-3 items-center">
+                          <input
+                            type="color"
+                            value={data.tables[editingTableIndex].widgetCaptionColor || "#6B7280"}
+                            onChange={(e) => {
+                              const newTables = [...data.tables!];
+                              newTables[editingTableIndex] = {
+                                ...newTables[editingTableIndex],
+                                widgetCaptionColor: e.target.value
+                              };
+                              onChange({ ...data, tables: newTables });
+                            }}
+                            className="w-16 h-12 rounded cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={data.tables[editingTableIndex].widgetCaptionColor || "#6B7280"}
+                            onChange={(e) => {
+                              const newTables = [...data.tables!];
+                              newTables[editingTableIndex] = {
+                                ...newTables[editingTableIndex],
+                                widgetCaptionColor: e.target.value
+                              };
+                              onChange({ ...data, tables: newTables });
+                            }}
+                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Cards in {data.tables?.[editingTableIndex]?.name}
@@ -2207,6 +2333,11 @@ const PricingCardEditor = ({ data, onChange }: PricingCardEditorProps) => {
                     id: `table_${(data.tables?.length || 0) + 1}`,
                     name: `Table ${(data.tables?.length || 0) + 1}`,
                     caption: "",
+                    showWidgetTitle: false,
+                    widgetTitle: "",
+                    widgetTitleCaption: "",
+                    widgetTitleColor: "#FF6B6B",
+                    widgetCaptionColor: "#6B7280",
                     cards: [currentCards[0] || INITIAL_PRICING_CARD.tables![0].cards[0]],
                   };
                   onChange({ ...data, tables: [...(data.tables || []), newTable] });
@@ -2736,34 +2867,39 @@ const PricingCardPreview = ({
         </div>
       )}
 
-      {/* ADD THIS WIDGET TITLE SECTION */}
       {/* WIDGET TITLE SECTION */}
-      {data.showWidgetTitle && (data.widgetTitle || data.widgetTitleCaption) && (
-        <div className="text-center mb-8">
-          {data.widgetTitle && (
-            <h2
-              className="font-bold mb-2"
-              style={{
-                fontSize: `${appearance.fontSize * 2}px`,
-                color: data.widgetTitleColor || "#FF6B6B"
-              }}
-            >
-              {data.widgetTitle}
-            </h2>
-          )}
-          {data.widgetTitleCaption && (
-            <p
-              className="opacity-70"
-              style={{
-                fontSize: `${appearance.fontSize}px`,
-                color: data.widgetCaptionColor || "#6B7280"
-              }}
-            >
-              {data.widgetTitleCaption}
-            </p>
-          )}
-        </div>
-      )}
+      {(() => {
+        const currentTitle = data.multiTableMode && data.tables
+          ? data.tables[activeTableIndex]
+          : data;
+
+        return currentTitle.showWidgetTitle && (currentTitle.widgetTitle || currentTitle.widgetTitleCaption) && (
+          <div className="text-center mb-8">
+            {currentTitle.widgetTitle && (
+              <h2
+                className="font-bold mb-2"
+                style={{
+                  fontSize: `${appearance.fontSize * 2}px`,
+                  color: currentTitle.widgetTitleColor || "#FF6B6B"
+                }}
+              >
+                {currentTitle.widgetTitle}
+              </h2>
+            )}
+            {currentTitle.widgetTitleCaption && (
+              <p
+                className="opacity-70"
+                style={{
+                  fontSize: `${appearance.fontSize}px`,
+                  color: currentTitle.widgetCaptionColor || "#6B7280"
+                }}
+              >
+                {currentTitle.widgetTitleCaption}
+              </p>
+            )}
+          </div>
+        );
+      })()}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {currentCards.map((card, index) => (
