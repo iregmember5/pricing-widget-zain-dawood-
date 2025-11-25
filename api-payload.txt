@@ -1,0 +1,174 @@
+{
+  "name": "string",
+  "settings": {
+    "multiple_tables_mode": true,
+    "language": {
+      "language": "en"
+    },
+    "tables": [
+      {
+        "name": "string",
+        "caption": "string",
+        "head_title": "string",
+        "head_features": [
+          {
+            "text": "string",
+            "hint": "string"
+          }
+        ],
+        "columns": [
+          {
+            "title": "string",
+            "title_caption": "string",
+            "price_caption": "string",
+            "features": [
+              {
+                "text": "string"
+              }
+            ],
+            "button_text": "string",
+            "button_caption": "string",
+            "button_link": {
+              "type": "URL",
+              "value": "string",
+              "raw_value": "string",
+              "target": "_self"
+            },
+            "price": {
+              "pricing_model": "fixed",
+              "price": "string",
+              "currency": "USD",
+              "min_price": "string",
+              "max_price": "string",
+              "period": "daily",
+              "unit": "string",
+              "custom_price": "string"
+            },
+            "old_price": {
+              "enabled": true,
+              "price": "string",
+              "min_price": "string",
+              "max_price": "string",
+              "custom_price": "string"
+            },
+            "primary_color": "string",
+            "highlight_label": "string"
+          }
+        ],
+        "visible": true
+      }
+    ],
+    "layout": "comparison_table",
+    "width": {
+      "auto": true,
+      "custom_value": 9223372036854776000
+    },
+    "show_widget_title": true,
+    "widget_title": "string",
+    "widget_title_caption": "string",
+    "widget_title_color": "string",
+    "widget_title_caption_color": "string",
+    "widget_title_link_color": "string",
+    "widget_title_alignment": "right",
+    "widget_title_text_style": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string"
+    },
+    "widget_title_caption_font_size": "string",
+    "column_style": "style1",
+    "primary_color": "string",
+    "secondary_color": "string",
+    "font": "string",
+    "toggle_color": "string",
+    "column_corner_radius": 9223372036854776000,
+    "carousel_arrow_background_color": "string",
+    "carousel_arrow_color": "string",
+    "carousel_arrow_background_color_on_hover": "string",
+    "carousel_arrow_color_on_hover": "string",
+    "carousel_arrow_size": 9223372036854776000,
+    "head_text_color": "string",
+    "head_background_color": "string",
+    "head_features_font_size": 9223372036854776000,
+    "head_title_font": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string"
+    },
+    "show_title": true,
+    "title_alignment": "right",
+    "title_text_color": "string",
+    "title_caption_color": "string",
+    "title_font": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string"
+    },
+    "title_caption_font": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string"
+    },
+    "show_features": true,
+    "features_style": "plain",
+    "features_align": "right",
+    "features_font_size": 9223372036854776000,
+    "features_icon_color": "string",
+    "features_text_color": "string",
+    "show_price": true,
+    "price_caption_color": "string",
+    "discount_text_color": "string",
+    "discount_font": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string",
+      "text_transform": "string"
+    },
+    "old_price_color": "string",
+    "old_price_font": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string"
+    },
+    "discount": {
+      "enabled": true,
+      "custom_label": "string"
+    },
+    "price_caption_font": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string"
+    },
+    "price_align": "right",
+    "price_color": "string",
+    "price_font": {
+      "font_size": 9223372036854776000,
+      "font_weight": "string",
+      "font_style": "string"
+    },
+    "show_picture": true,
+    "picture_aspect_ratio": "string",
+    "show_button": true,
+    "button": {
+      "text": "string",
+      "mode": "filled",
+      "color": "string",
+      "label_color": "string",
+      "caption_color": "string",
+      "border_radius": 9223372036854776000,
+      "horizontal_padding": 9223372036854776000,
+      "vertical_padding": 9223372036854776000,
+      "full_width": true,
+      "size": 9223372036854776000,
+      "font": {
+        "font_size": 9223372036854776000,
+        "font_weight": "string"
+      }
+    },
+    "button_alignment": "right",
+    "highlight_style_type": "ribbon",
+    "highlight_background_color": "string",
+    "highlight_text_color": "string",
+    "default_table": "string"
+  }
+}
