@@ -2103,6 +2103,40 @@ const PricingCardEditor = ({ data, onChange }: PricingCardEditorProps) => {
                 Back to Tables
               </button>
 
+              {/* TABLE TAB NAME EDITOR */}
+    {data.multiTableMode && data.tables && (
+      <div className="space-y-4 mb-6 p-4 border border-gray-700 rounded-lg bg-gray-800">
+        <InputField
+          label="Tab Name"
+          value={data.tables[editingTableIndex].name}
+          placeholder="e.g., Monthly, Yearly, Basic Plan"
+          onChange={(value) => {
+            const newTables = [...data.tables!];
+            newTables[editingTableIndex] = {
+              ...newTables[editingTableIndex],
+              name: value
+            };
+            onChange({ ...data, tables: newTables });
+          }}
+        />
+        
+        <InputField
+          label="Tab Caption (optional)"
+          value={data.tables[editingTableIndex].caption || ""}
+          placeholder="e.g., Save 20%, Most Popular"
+          onChange={(value) => {
+            const newTables = [...data.tables!];
+            newTables[editingTableIndex] = {
+              ...newTables[editingTableIndex],
+              caption: value
+            };
+            onChange({ ...data, tables: newTables });
+          }}
+        />
+      </div>
+    )}
+
+
               {/* Multi-table mode: show table title options */}
               {data.multiTableMode && data.tables && (
                 <div className="space-y-4 mb-6">
